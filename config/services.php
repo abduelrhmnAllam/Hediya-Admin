@@ -13,6 +13,11 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'admitad' => [
+        'client_id' => env('ADMITAD_CLIENT_ID'),
+        'client_secret' => env('ADMITAD_CLIENT_SECRET'),
+        'base64' => env('ADMITAD_BASE64_HEADER'),
+    ],
 
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
@@ -33,6 +38,8 @@ return [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
+
+
     ],
 
 ];

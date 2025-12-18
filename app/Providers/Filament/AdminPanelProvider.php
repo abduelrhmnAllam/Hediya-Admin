@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers\Filament;
+use App\Filament\Widgets\DashboardStats;
 
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -35,7 +36,7 @@ class AdminPanelProvider extends PanelProvider
         50  => '#FFF1EE',
         100 => '#FFE4DE',
         200 => '#FFC9BC',
-        300 => '#FFA99A', 
+        300 => '#FFA99A',
         400 => '#FF7A63',
         500 => '#FF5A3C',
         600 => '#F24E1E',
@@ -53,8 +54,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+               
+                DashboardStats::class,
             ])
             ->middleware([
                 EncryptCookies::class,

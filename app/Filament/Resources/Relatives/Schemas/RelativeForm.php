@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Avatars\Schemas;
+namespace App\Filament\Resources\Relatives\Schemas;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Grid;
@@ -9,7 +9,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Select;
 
-class AvatarForm
+class RelativeForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -17,24 +17,24 @@ class AvatarForm
 
             /*
             |--------------------------------------------------------------
-            | Default toggle (FORCED single row)
+            | Default toggle (single row)
             |--------------------------------------------------------------
             */
             Grid::make(12)->schema([
                 Toggle::make('is_default')
-                    ->label('Default Avatar')
-                    ->helperText('Toggle to mark this avatar as default')
+                    ->label('Default Relative')
+                    ->helperText('Toggle to mark this relative as default')
                     ->columnSpan(12),
             ]),
 
             /*
             |--------------------------------------------------------------
-            | Name + Gender (same row)
+            | Title + Gender (same row)
             |--------------------------------------------------------------
             */
             Grid::make(12)->schema([
 
-                TextInput::make('name')
+                TextInput::make('title')
                     ->required()
                     ->columnSpan(8),
 
@@ -50,13 +50,13 @@ class AvatarForm
 
             /*
             |--------------------------------------------------------------
-            | Avatar image (create only)
+            | Image (create only)
             |--------------------------------------------------------------
             */
             FileUpload::make('image')
-                ->label('Avatar Image')
+                ->label('Relative Image')
                 ->disk('public')
-                ->directory('avatars')
+                ->directory('relatives')
                 ->visibility('public')
                 ->image()
                 ->preserveFilenames()

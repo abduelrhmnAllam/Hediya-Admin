@@ -28,14 +28,15 @@ class OccasionName extends Model
     }
     protected $appends = ['image_background_url'];
 
-   public function getImageBackgroundUrlAttribute()
+ public function getImageBackgroundUrlAttribute(): ?string
 {
-    if (!$this->image_background) {
+    if (! $this->image_background) {
         return null;
     }
 
-    return rtrim(config('app.media_url'), '/') . '/storage/' . $this->image_background;
+    return rtrim(config('app.media_url'), '/') . '/storage/' . ltrim($this->image_background, '/');
 }
+
 
 
     public function scopeVisibleForUser($query, $userId)

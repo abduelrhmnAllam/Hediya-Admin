@@ -25,14 +25,13 @@ class Interest extends Model
     }
 
 
-    public function getIconUrlAttribute()
-    {
-        if ($this->icon) {
-
-            return asset('storage/' . $this->icon);
-        }
-
-      
-        return asset('images/default-interest.png');
+    public function getIconUrlAttribute(): string
+{
+    if ($this->icon) {
+        return rtrim(config('app.media_url'), '/') . '/storage/' . ltrim($this->icon, '/');
     }
+
+    return rtrim(config('app.media_url'), '/') . '/images/default-interest.png';
+}
+
 }

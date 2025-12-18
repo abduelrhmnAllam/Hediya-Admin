@@ -18,7 +18,7 @@ class OccasionNameResource extends Resource
 {
     protected static ?string $model = OccasionName::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendar;
 
     protected static ?string $recordTitleAttribute = 'name';
 

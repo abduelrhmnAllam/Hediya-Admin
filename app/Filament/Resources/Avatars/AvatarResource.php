@@ -19,7 +19,7 @@ class AvatarResource extends Resource
     protected static ?string $model = Avatar::class;
 
     protected static string|BackedEnum|null $navigationIcon =
-        Heroicon::OutlinedRectangleStack;
+        Heroicon::OutlinedUserCircle;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -39,7 +39,7 @@ class AvatarResource extends Resource
     public static function getRelations(): array
     {
         return [
-            
+
         ];
     }
 

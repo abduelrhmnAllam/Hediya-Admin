@@ -15,13 +15,15 @@ class Relative extends Model
 
     protected $appends = ['image_url'];
 
-    public function getImageUrlAttribute()
-    {
-        if ($this->image) {
-            return asset('storage/' . $this->image);
-        }
-        return asset('images/default-relative.png');
+public function getImageUrlAttribute(): string
+{
+    if (! $this->image) {
+        return rtrim(config('app.media_url'), '/') . '/images/default-relative.png';
     }
+
+    return rtrim(config('app.media_url'), '/') . '/storage/' . ltrim($this->image, '/');
+}
+
      public function persons()
     {
         return $this->hasMany(Person::class);
@@ -34,7 +36,7 @@ class Relative extends Model
               ->orWhere('user_id', $userId);
         });
     }
-    
+
     public function scopeSearch($query, $term)
     {
         return $query->when($term, function ($q) use ($term) {

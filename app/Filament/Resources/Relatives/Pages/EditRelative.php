@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Filament\Resources\Avatars\Pages;
+namespace App\Filament\Resources\Relatives\Pages;
 
-use App\Filament\Resources\Avatars\AvatarResource;
+use App\Filament\Resources\Relatives\RelativeResource;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\HtmlString;
 
-class EditAvatar extends EditRecord
+class EditRelative extends EditRecord
 {
-    protected static string $resource = AvatarResource::class;
+    protected static string $resource = RelativeResource::class;
 
     /**
-     * ✅ Title with avatar image (keeps header actions)
+     * ✅ Title with image (keeps header actions)
      */
     public function getTitle(): string|HtmlString
     {
@@ -22,14 +22,10 @@ class EditAvatar extends EditRecord
             return parent::getTitle();
         }
 
-        $imageUrl = method_exists($this->record, 'getImageUrlAttribute')
-            ? $this->record->image_url
-            : asset('storage/' . $this->record->image);
-
         return new HtmlString(
             '<div style="display:flex;align-items:center;gap:12px;">
                 <img
-                    src="' . $imageUrl . '"
+                    src="' . $this->record->image_url . '"
                     style="
                         width:80px;
                         height:80px;
@@ -37,7 +33,7 @@ class EditAvatar extends EditRecord
                         border-radius:50%;
                     "
                 />
-                <span>' . 'Update' .' '. e($this->record->name ?? 'Avatar') . '</span>
+                <span>' . 'Update ' . e($this->record->title) . '</span>
             </div>'
         );
     }
@@ -48,20 +44,18 @@ class EditAvatar extends EditRecord
             DeleteAction::make(),
 
             Action::make('changeImage')
-                ->label('Change Avatar')
+                ->label('Change Image')
                 ->form([
                     FileUpload::make('image')
                         ->disk('public')
-                        ->directory('avatars')
+                        ->directory('relatives')
                         ->visibility('public')
                         ->image()
                         ->required(),
                 ])
-                ->action(function (array $data) {
-                    $this->record->update([
-                        'image' => $data['image'],
-                    ]);
-                }),
+                ->action(fn (array $data) =>
+                    $this->record->update(['image' => $data['image']])
+                ),
         ];
     }
 }
