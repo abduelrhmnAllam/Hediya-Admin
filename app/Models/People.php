@@ -32,30 +32,30 @@ protected $table = 'people';
 
 
 
-protected $appends = ['pic_url'];
-
-public function getPicUrlAttribute(): ?string
-{
-
-    if (!empty($this->attributes['pic'])) {
-        $path = Str::replaceFirst('storage/', '', $this->attributes['pic']);
-
-        return rtrim(config('app.media_url'), '/')
-            . '/storage/'
-            . ltrim($path, '/');
-    }
-
-    if ($this->avatar && !empty($this->avatar->image)) {
-        return rtrim(config('app.media_url'), '/')
-            . '/storage/'
-            . ltrim($this->avatar->image, '/');
-    }
-
-
-    return rtrim(config('app.media_url'), '/')
-        . '/images/default-person.png';
-}
-
+        protected $appends = ['pic_url'];
+        
+        public function getPicUrlAttribute(): ?string
+        {
+        
+            if (!empty($this->attributes['pic'])) {
+                $path = Str::replaceFirst('storage/', '', $this->attributes['pic']);
+            
+                return rtrim(config('app.media_url'), '/')
+                    . '/storage/'
+                    . ltrim($path, '/');
+            }
+        
+            if ($this->avatar && !empty($this->avatar->image)) {
+                return rtrim(config('app.media_url'), '/')
+                    . '/storage/'
+                    . ltrim($this->avatar->image, '/');
+            }
+        
+        
+            return rtrim(config('app.media_url'), '/')
+                . '/images/default-person.png';
+        }
+        
 
 
 

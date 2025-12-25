@@ -16,15 +16,12 @@ class PersonsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->columns([
+                ->columns([
 
-            Tables\Columns\ImageColumn::make('pic_url')
-             ->label('Photo')
-             ->circular()
-             ->size(40),
-
-
-
+                Tables\Columns\ImageColumn::make('pic_url')
+                 ->label('Photo')
+                 ->circular()
+                 ->size(40),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
