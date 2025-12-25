@@ -12,15 +12,19 @@ class PersonsRelationManager extends RelationManager
 
     protected static ?string $title = 'Persons';
 
+
     public function table(Table $table): Table
     {
         return $table
             ->columns([
 
-                Tables\Columns\ImageColumn::make('pic')
-                    ->label('Photo')
-                    ->circular()
-                    ->defaultImageUrl(asset('images/default-person.png')),
+            Tables\Columns\ImageColumn::make('pic_url')
+             ->label('Photo')
+             ->circular()
+             ->size(40),
+
+
+
 
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')

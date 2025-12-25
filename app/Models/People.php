@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class People extends Model
 {
@@ -27,6 +29,33 @@ protected $table = 'people';
     protected $casts = [
         'birthday_date' => 'date',
     ];
+
+
+
+protected $appends = ['pic_url'];
+
+public function getPicUrlAttribute(): ?string
+{
+
+    if (!empty($this->attributes['pic'])) {
+        $path = Str::replaceFirst('storage/', '', $this->attributes['pic']);
+
+        return rtrim(config('app.media_url'), '/')
+            . '/storage/'
+            . ltrim($path, '/');
+    }
+
+    if ($this->avatar && !empty($this->avatar->image)) {
+        return rtrim(config('app.media_url'), '/')
+            . '/storage/'
+            . ltrim($this->avatar->image, '/');
+    }
+
+
+    return rtrim(config('app.media_url'), '/')
+        . '/images/default-person.png';
+}
+
 
 
 
