@@ -38,8 +38,6 @@ return new class extends Migration
                $table->decimal('payment', 12, 2)->default(0);
                $table->decimal('cart_amount', 12, 2)->nullable();
 
-                $table->dateTime('conversion_time')->nullable()->change();
-
                $table->dateTime('action_date')->nullable();
                $table->dateTime('click_date')->nullable();
                $table->date('closing_date')->nullable();

@@ -30,7 +30,8 @@ class AdminPanelProvider extends PanelProvider
              | Base Panel Configuration
              |--------------------------------------------------------------------------
              */
-            ->default() // Restores the default Filament panel styling
+             // Restores the default Filament panel styling
+            ->default() 
             ->id('admin')
             ->path('admin')
 
