@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class OccasionName extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
+
+    protected static $logName = 'occasion';
+
 
     protected $fillable = [
     'name',
@@ -55,4 +60,20 @@ class OccasionName extends Model
     }
 
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'name',
+                'description',
+                'background_color',
+                'title_color',
+                'is_default',
+                'is_recommend',
+                'date',
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
+    
 }

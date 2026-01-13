@@ -18,27 +18,30 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')
-                  ->references('id')
-                  ->on('products')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade');
 
             $table->timestamps();
 
             // Vector column only for PostgreSQL
             if (DB::getDriverName() === 'pgsql') {
                 $table->vector('embedding', 1536)
-                      ->nullable()
-                      ->comment('text-embedding-3-small has 1536 dimensions');
+                    ->nullable()
+                    ->comment('text-embedding-3-small has 1536 dimensions');
             }
         });
 
         // Create HNSW index only for PostgreSQL
         if (DB::getDriverName() === 'pgsql') {
             DB::statement(
-                'CREATE INDEX product_embeddings_embedding_hnsw
-                 ON product_embeddings
-                 USING hnsw (embedding vector_cosine_ops)'
+                'CREATE INDEX CONCURRENTLY product_embeddings_embedding_l2_idx
+                        ON product_embeddings USING hnsw (embedding vector_l2_ops)
+                        WITH (m = 16, ef_construction = 64);
+                        SET hnsw.iterative_scan = \'strict_order\'; '
             );
+
+
         }
     }
 

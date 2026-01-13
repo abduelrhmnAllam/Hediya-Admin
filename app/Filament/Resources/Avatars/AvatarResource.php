@@ -19,7 +19,7 @@ class AvatarResource extends Resource
     protected static ?string $model = Avatar::class;
 
     protected static string|BackedEnum|null $navigationIcon =
-        Heroicon::OutlinedUserCircle;
+        Heroicon::OutlinedPhoto;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -51,4 +51,12 @@ class AvatarResource extends Resource
             'edit'   => EditAvatar::route('/{record}/edit'),
         ];
     }
+    public static function canViewAny(): bool
+{
+    return auth()->user()->hasAnyRole([
+        'content-admin',
+        'hybrid-admin',
+    ]);
+}
+
 }

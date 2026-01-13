@@ -10,14 +10,14 @@ class CountrySeeder extends Seeder
     public function run(): void
     {
         $countries = [
-            ['code' => 'KW', 'name' => 'Kuwait'],
             ['code' => 'SA', 'name' => 'Saudi Arabia'],
             ['code' => 'UAE', 'name' => 'United Arab Emirates'],
+            ['code' => 'JOR', 'name' => 'Jordan'],
         ];
 
         foreach ($countries as $country) {
             $exists = DB::table('country')->where('code', $country['code'])->exists();
-            
+
             if (!$exists) {
                 DB::table('country')->insert([
                     'code' => $country['code'],

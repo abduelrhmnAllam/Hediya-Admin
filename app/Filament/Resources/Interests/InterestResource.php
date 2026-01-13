@@ -47,4 +47,13 @@ class InterestResource extends Resource
             'edit' => EditInterest::route('/{record}/edit'),
         ];
     }
+
+    public static function canViewAny(): bool
+{
+    return auth()->user()->hasAnyRole([
+        'content-admin',
+        'hybrid-admin',
+    ]);
+}
+
 }

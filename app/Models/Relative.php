@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Relative extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
+    protected static $logName = 'relative';
     protected $fillable = ['title', 'image' , 'gender' , 'user_id', 'is_default',];
 
 
@@ -44,4 +47,11 @@ public function getImageUrlAttribute(): string
         });
     }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'gender', 'is_default'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 }

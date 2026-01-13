@@ -18,6 +18,10 @@ return [
         'client_secret' => env('ADMITAD_CLIENT_SECRET'),
         'base64' => env('ADMITAD_BASE64_HEADER'),
     ],
+    'boostiny' => [
+    'token' => env('BOOSTINY_API_TOKEN'),
+   ],
+
 
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),

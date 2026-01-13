@@ -18,7 +18,7 @@ class OccasionNameResource extends Resource
 {
     protected static ?string $model = OccasionName::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendar;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -47,4 +47,12 @@ class OccasionNameResource extends Resource
             'edit' => EditOccasionName::route('/{record}/edit'),
         ];
     }
+    public static function canViewAny(): bool
+{
+    return auth()->user()->hasAnyRole([
+        'content-admin',
+        'hybrid-admin',
+    ]);
+}
+
 }

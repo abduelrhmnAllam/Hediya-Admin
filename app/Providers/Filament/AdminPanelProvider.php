@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Providers\Filament;
-use App\Filament\Widgets\DashboardStats;
 
-use Filament\Http\Middleware\Authenticate;
+use App\Filament\Widgets\DashboardStats;
+use Filament\Http\Middleware\Authenticate as FilamentAuthenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -25,38 +25,83 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-             ->default()
-             ->id('admin')
-             ->path('admin')
-             ->login()
-             ->brandName('Hediya Admin')
-             ->brandLogo(asset('images/logo.png'))
-          ->colors([
-    'primary' => [
-        50  => '#FFF1EE',
-        100 => '#FFE4DE',
-        200 => '#FFC9BC',
-        300 => '#FFA99A',
-        400 => '#FF7A63',
-        500 => '#FF5A3C',
-        600 => '#F24E1E',
-        700 => '#E94B35',
-        800 => '#C23A28',
-        900 => '#9E2F22',
-    ],
-])
+            /*
+             |--------------------------------------------------------------------------
+             | Base Panel Configuration
+             |--------------------------------------------------------------------------
+             */
+            ->default() // Restores the default Filament panel styling
+            ->id('admin')
+            ->path('admin')
 
-->sidebarCollapsibleOnDesktop()
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            /*
+             |--------------------------------------------------------------------------
+             | Authentication
+             |--------------------------------------------------------------------------
+             */
+            ->login()                 // Enables Filament login routes
+            ->authGuard('admin')      // Use the custom "admin" auth guard
+
+            /*
+             |--------------------------------------------------------------------------
+             | Branding
+             |--------------------------------------------------------------------------
+             */
+            ->brandName('Hediya Admin')
+            ->brandLogo(asset('images/logo.png'))
+
+            /*
+             |--------------------------------------------------------------------------
+             | Theme & Colors
+             |--------------------------------------------------------------------------
+             */
+            ->colors([
+                'primary' => [
+                    50  => '#FFF1EE',
+                    100 => '#FFE4DE',
+                    200 => '#FFC9BC',
+                    300 => '#FFA99A',
+                    400 => '#FF7A63',
+                    500 => '#FF5A3C',
+                    600 => '#F24E1E',
+                    700 => '#E94B35',
+                    800 => '#C23A28',
+                    900 => '#9E2F22',
+                ],
+            ])
+
+            ->sidebarCollapsibleOnDesktop() // Allow sidebar collapse on desktop
+
+            /*
+             |--------------------------------------------------------------------------
+             | Resources, Pages & Widgets Discovery
+             |--------------------------------------------------------------------------
+             */
+            ->discoverResources(
+                in: app_path('Filament/Resources'),
+                for: 'App\Filament\Resources'
+            )
+            ->discoverPages(
+                in: app_path('Filament/Pages'),
+                for: 'App\Filament\Pages'
+            )
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            ->discoverWidgets(
+                in: app_path('Filament/Widgets'),
+                for: 'App\Filament\Widgets'
+            )
             ->widgets([
-               
+                AccountWidget::class,
                 DashboardStats::class,
             ])
+
+            /*
+             |--------------------------------------------------------------------------
+             | Global Middleware Stack (without authentication)
+             |--------------------------------------------------------------------------
+             */
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -68,8 +113,17 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+
+            /*
+             |--------------------------------------------------------------------------
+             | Filament Authentication Middleware
+             |--------------------------------------------------------------------------
+             | IMPORTANT:
+             | Use Filament's Authenticate middleware only.
+             | Do NOT use Laravel's default Authenticate middleware here.
+             */
             ->authMiddleware([
-                Authenticate::class,
+                FilamentAuthenticate::class,
             ]);
     }
 }

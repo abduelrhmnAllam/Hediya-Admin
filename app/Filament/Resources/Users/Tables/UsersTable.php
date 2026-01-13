@@ -24,6 +24,10 @@ class UsersTable
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('mobile')
+                    ->label('Mobile')
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('persons_count')
                     ->label('Persons')
                     ->counts('persons'),
@@ -35,9 +39,11 @@ class UsersTable
                     ->dateTime(),
             ])
             // 👇 افتح صفحة اليوزر بالضغط على الصف
+            /*
             ->recordUrl(fn ($record) => route(
                 'filament.admin.resources.users.edit',
                 $record
-            ));
+            ))
+            */;
     }
 }

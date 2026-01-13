@@ -6,14 +6,38 @@ use App\Models\Avatar;
 use App\Models\Interest;
 use App\Models\OccasionName;
 use App\Models\Relative;
+use App\Models\User;
+use App\Models\AffiliateAction;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class DashboardStats extends StatsOverviewWidget
 {
+    public static function canView(): bool
+    {
+        return auth()->user()?->hasAnyRole([
+            'content-admin',
+            'hybrid-admin',
+        ]) ?? false;
+    }
+
     protected function getStats(): array
     {
         return [
+            Stat::make('Total Users', User::count())
+                ->description('Registered app users')
+                ->icon('heroicon-o-users')
+                ->color('info'),
+
+            Stat::make('Total Net Revenue', '$' . number_format(AffiliateAction::sum('net_payment'), 2))
+                ->description('Net revenue from affiliate actions')
+                ->icon('heroicon-o-banknotes')
+                ->color('success'),
+
+            Stat::make('Total Net Orders', AffiliateAction::sum('net_orders'))
+                ->description('Total orders')
+                ->icon('heroicon-o-shopping-cart')
+                ->color('primary'),
 
             Stat::make('Avatars', Avatar::count())
                 ->description('Total avatars')

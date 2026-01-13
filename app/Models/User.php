@@ -4,13 +4,10 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
-use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
-    use Notifiable, HasRoles;
+    use Notifiable;
 
     protected $fillable = [
         'name',
@@ -34,13 +31,7 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return $this->hasRole('admin');
-    }
-
-
-     protected $appends = ['avatar_url'];
+    protected $appends = ['avatar_url'];
 
     /** 🔗 Avatar full URL */
     public function getAvatarUrlAttribute()
@@ -51,13 +42,12 @@ class User extends Authenticatable implements FilamentUser
 
         return url('uploads/avatars/' . $this->avatar);
     }
-    /**
-     * Relation Example - One user has many persons.
-     */
+
     public function persons()
     {
         return $this->hasMany(People::class);
     }
+
     public function interests()
     {
         return $this->belongsToMany(Interest::class, 'user_interest', 'user_id', 'interest_id');
@@ -65,7 +55,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function addresses()
     {
-        return $this->hasMany(\App\Models\UserAddress::class);
+        return $this->hasMany(UserAddress::class);
     }
 
     public function unsignedGifts()
@@ -85,7 +75,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function giftIdeas()
     {
-       return $this->hasMany(GiftIdea::class);
+        return $this->hasMany(GiftIdea::class);
     }
 
     public function productViewHistory()
@@ -93,8 +83,8 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(ProductViewHistory::class);
     }
 
-public function country()
-{
-    return $this->belongsTo(Country::class, 'country_id', 'id');
-}
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
 }

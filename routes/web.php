@@ -36,7 +36,7 @@ Route::get('/test-admitad-balance', function () {
 
 Route::get('/test-admitad-daily', function () {
     return app(\App\Services\AdmitadService::class)->daily([
-        'date_start' => now()->subDays(300)->format('d.m.Y'),
+        'date_start' => now()->subDays(700)->format('d.m.Y'),
         'date_end'   => now()->format('d.m.Y'),
         'limit'      => 10,
     ]);

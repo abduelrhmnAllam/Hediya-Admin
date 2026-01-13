@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->nullable();
             $table->string('image');
-            $table->enum('gender', ['male', 'female', 'neutral'])->default('neutral');
+            $table->enum('gender', ['male', 'female'])->default('neutral');
             $table->boolean('is_default')->default(false);
             $table->timestamps();
         });
